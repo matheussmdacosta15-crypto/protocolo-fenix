@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protocolo Fênix – Quiz de Renascimento</title>
+<style>
+:root{
+  --bg:#070406;
+  --accent:#ff6b35;
+  --accent-2:#ff8c42;
+  --muted:#bdbdbd;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color-scheme: dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1200px 400px at 10% 10%, rgba(255,107,53,0.06), transparent),
+    radial-gradient(1000px 300px at 90% 90%, rgba(255,140,66,0.04), transparent),
+    var(--bg);
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+.container{max-width:980px;margin:0 auto;padding:24px}
+.header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.logo{
+  width:78px;
+  height:78px;
+  border-radius:12px;
+  background:linear-gradient(180deg,#1b1b1b,#0b0b0b);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+.logo img{width:100%;height:100%;object-fit:cover}
+.title h1{font-size:20px;letter-spacing:0.6px;margin-bottom:6px}
+.title p{color:var(--muted);font-size:14px}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.03);
+}
+.progress{height:8px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;margin-bottom:16px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width 0.3s}
+.q-title{font-weight:700;margin-bottom:14px;font-size:16px}
+.options{display:grid;gap:10px}
+@media(min-width:700px){.options{grid-template-columns:1fr 1fr}}
+.option{
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  padding:14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  transition:all .14s;
+  color:#eee;
+}
+.option:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+.option.active{
+  outline:2px solid rgba(255,107,53,0.4);
+  background:linear-gradient(180deg, rgba(255,107,53,0.12), rgba(255,107,53,0.06));
+}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.btn{
+  background:var(--accent);
+  color:#fff;
+  padding:11px 18px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+  transition:all 0.2s;
+}
+.btn:hover{background:#ff8533;transform:translateY(-2px)}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted)}
+.btn.secondary:hover{background:rgba(255,255,255,0.05)}
+.result{
+  padding:20px;
+  border-radius:12px;
+  background:linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.02);
+}
+.result h2{margin-bottom:10px;font-size:20px;color:var(--accent-2)}
+.result p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:12px}
+.bullets{margin:14px 0;padding-left:20px}
+.bullets li{margin:8px 0;color:var(--muted);font-size:14px}
+.checkout-block{
+  background:linear-gradient(90deg, rgba(255,107,53,0.1), rgba(255,140,66,0.05));
+  padding:16px;
+  border-radius:10px;
+  border:1px solid rgba(255,107,53,0.15);
+  margin-top:16px;
+}
+.checkout-block .price{font-size:22px;font-weight:700;color:#fff}
+.checkout-block .desc{font-size:13px;color:var(--muted);margin:6px 0 12px}
+.score-badge{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,107,53,0.15);
+  color:var(--accent-2);
+  font-weight:600;
+  font-size:13px;
+  margin-top:10px;
+}
+.footer{margin-top:20px;text-align:center}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,107,53,0.1);
+  color:var(--accent);
+  font-weight:700;
+  border:1px solid rgba(255,107,53,0.1);
+  font-size:13px;
+}
+.hidden{display:none}
+@media(max-width:520px){
+  .header{gap:10px}
+  .logo{width:60px;height:60px}
+  .title h1{font-size:18px}
+  .card{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <img src="https://i.postimg.cc/vDYCjHqR/fenix-logo.png" alt="Protocolo Fênix">
+    </div>
+    <div class="title">
+      <h1>Protocolo Fênix – 7 dias para renascer</h1>
+      <p>Teste rápido: descubra seu nível de estagnação e receba a porta de saída.</p>
+    </div>
+  </div>
+
+  <div class="card" id="quizCard">
+    <div class="progress"><div class="progress-bar" id="prog"></div></div>
+    <div id="qArea"></div>
+    <div class="controls">
+      <button class="btn secondary hidden" id="prevBtn">Voltar</button>
+      <button class="btn" id="nextBtn" disabled>Próxima</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="resultWrap">
+    <div class="result" id="resultCard"></div>
+  </div>
+
+  <div class="footer">
+    <span class="badge">Protocolo Fênix</span>
+    <p style="margin-top:8px;font-size:13px;color:var(--muted)">Se preferir suporte, use o WhatsApp no nosso perfil do Instagram.</p>
+  </div>
+</div>
+
+<script>
+const CHECKOUT_URL = "https://pay.cakto.com.br/oed45dp_628794";
+
+const questions = [
+  {q:"Sua mente tá mais pra…", opts:["Silêncio organizado","Bagunça moderada","Caos com glitter","Uma rave de pensamentos que não cala por nada"]},
+  {q:"Você acorda sentindo que…", opts:["Sei o que preciso fazer","Dou uma enrolada mas vou","Começo pilhado e morro na metade","Já acordo derrotado(a)"]},
+  {q:"Quando você tenta mudar de vida…", opts:["Consigo manter 30 dias","Mantenho 1 semana e depois desando","Aguento 2–3 dias","Nem sei mais por onde começar"]},
+  {q:"Nível de distração por celular:", opts:["Baixo – eu domino","Moderado","Alto – eu me perco","Absurdo – o celular me domina"]},
+  {q:"Você sente que está vivendo…", opts:["No controle","No modo 'indo'","No automático","No piloto zumbi"]},
+  {q:"Qual dessas frases te irrita porque parece que foi escrita pra você?", opts:["'Você tem sua vida quase no eixo, falta só direção fina.'","'Você até sabe o que fazer, mas não segura consistência.'","'Você se boicota mesmo sabendo que tá errado.'","'Você desistiu de você antes mesmo de tentar.'"]},
+  {q:"Sinceramente: você se sente perdido(a)?", opts:["Um pouco","Frequentemente","Quase sempre","24h por dia"]}
+];
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+
+const qArea = document.getElementById('qArea');
+const prog = document.getElementById('prog');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const quizCard = document.getElementById('quizCard');
+const resultWrap = document.getElementById('resultWrap');
+const resultCard = document.getElementById('resultCard');
+
+function renderQuestion(i){
+  const item = questions[i];
+  qArea.innerHTML = `<div class="q-title">${i+1}. ${item.q}</div>
+    <div class="options">${item.opts.map((o,idx)=>`<div class="option" data-idx="${idx}" data-val="${idx+1}">${o}</div>`).join('')}</div>`;
+  
+  document.querySelectorAll('.option').forEach(opt=>{
+    opt.onclick = ()=>{
+      document.querySelectorAll('.option').forEach(s=>s.classList.remove('active'));
+      opt.classList.add('active');
+      answers[i] = parseInt(opt.dataset.val);
+      nextBtn.disabled = false;
+    };
+  });
+
+  if(answers[i] !== null){
+    const sel = document.querySelector(`.option[data-val="${answers[i]}"]`);
+    if(sel) sel.classList.add('active');
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.disabled = true;
+  }
+
+  prog.style.width = Math.round(((i+1) / questions.length) * 100) + '%';
+  prevBtn.classList.toggle('hidden', i===0);
+  nextBtn.textContent = i===questions.length-1 ? 'Finalizar' : 'Próxima';
+}
+
+prevBtn.onclick = ()=>{ if(current>0){ current--; renderQuestion(current); } };
+
+nextBtn.onclick = ()=>{
+  if(answers[current]===null) return;
+  if(current < questions.length-1){ current++; renderQuestion(current); }
+  else finishQuiz();
+};
+
+function finishQuiz(){
+  const score = answers.reduce((s,v)=>s + (v||0), 0);
+  let level, title, desc, bullets;
+
+  if(score >=7 && score <=11){
+    level = 1;
+    title = "🔥 FÊNIX ADORMECIDA";
+    desc = "Você não está destruído(a). Você está adormecido(a). Sua vida não está péssima – só perdeu direção. 7 dias com o protocolo podem te explodir pra cima.";
+    bullets = ["Potencial existe; falta rotina e propósito.","Cansaço mental, mas com fogo interno.","Resultados rápidos com disciplina de 7 dias."];
+  } else if(score >=12 && score <=19){
+    level = 2;
+    title = "⚡ FÊNIX FERIDA";
+    desc = "Você sabe o que precisa, só não consegue manter. Suas feridas e drenos te puxam para baixo. Não é preguiça – é excesso de peso emocional.";
+    bullets = ["Ansiedade e dores emocionais moderadas.","Consistência frágil; precisa de ritual.","Dias 2 e 4 do protocolo são cruciais."];
+  } else {
+    level = 3;
+    title = "💀 ZUMBI ESTAGNADO";
+    desc = "Você virou espectador da própria vida. Nada te move. Você está mentalmente drenado – e isso requer reset urgente.";
+    bullets = ["Cansaço extremo e confusão mental.","Baixa autoestima e loop de arrependimento.","Protocolo Fênix é linha de sobrevivência."];
+  }
+
+  quizCard.classList.add('hidden');
+  resultWrap.classList.remove('hidden');
+
+  resultCard.innerHTML = `
+    <h2>${title}</h2>
+    <p>${desc}</p>
+    <ul class="bullets">${bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+    <span class="score-badge">Pontuação: ${score} – Nível ${level}</span>
+    <div class="checkout-block">
+      <div class="price">PROTOCOLO FÊNIX – R$17</div>
+      <div class="desc">7 dias – ritual diário, checklists práticos e manifesto</div>
+      <button class="btn" onclick="window.open('${CHECKOUT_URL}?level=${level}&score=${score}','_blank')">QUERO RENASCER (R$17)</button>
+    </div>
+  `;
+  
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>
